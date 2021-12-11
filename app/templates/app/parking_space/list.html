@@ -5,7 +5,17 @@
 {% endblock %}
 
 {% block content %}
-    {% for parking_space in parking_spaces %}
-        <a href="{{ parking_space.get_absolute_url }}">{{ parking_space.name }}</a>
-    {% endfor %}
+    <h4 class="has-text-centered mt-3">Parking spaces</h4>
+    <form action="" method="post" style="display:flex; justify-content: center; max-width: 540px;margin:auto">
+        {% csrf_token %}
+        <input class="input" type="text" name="name" placeholder="Place space">
+        <button class="button is-info"><i class="fa fa-plus"></i></button>
+    </form>
+    <div class="parking_spaces mt-3 columns is-multiline">
+        {% for parking_space in parking_spaces %}
+            <div class="column is-3">
+                {% include 'app/include/parking_space/card.html' with parking_space=parking_space %}
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

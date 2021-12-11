@@ -6,9 +6,10 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.shortcuts import reverse
 
+
 class ParkingSpace(models.Model):
     name = models.CharField(max_length=500, verbose_name='Название')
-    slug = models.SlugField(max_length=500, verbose_name='Слаг')
+    slug = models.SlugField(max_length=500, unique=True, verbose_name='Слаг')
     date_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     date_update = models.DateTimeField(auto_now_add=True, verbose_name='Дата обновления')
 
@@ -21,7 +22,7 @@ class ParkingSpace(models.Model):
     class Meta:
         verbose_name = 'Парковочное место'
         verbose_name_plural = 'Парковочные места'
-
+        ordering = ['-pk']
 
 class ReservingUser(models.Model):
     first_name = models.CharField(max_length=500, verbose_name='Имя пользователя')
