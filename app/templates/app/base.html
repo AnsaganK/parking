@@ -1,11 +1,83 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block style %}{% endblock %}
+    <style>
+        .logo {
+            font-size: 32px;
+            font-family: 'Raleway', sans-serif;
+            color: #b3dcff !important;
+            transition: color .5s;
+        }
+
+        .logo:hover {
+            color: #fff !important;
+        }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+
+    <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 </head>
 <body>
-{% block content %}
-{% endblock %}
+<div class="header">
+    <nav class="navbar is-info">
+        <div class="navbar-brand">
+            <a class="navbar-item logo" href="{% url 'app:base_page' %}">
+                Booking
+            </a>
+            <div class="navbar-burger" data-target="navMenuColorprimary-example">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <div id="navMenuColorprimary-example" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="{% url 'app:base_page' %}">
+                    Home
+                </a>
+                <a class="navbar-item" href="">
+                    Parking Space
+                </a>
+                <a class="navbar-item" href="">
+                    Reserve
+                </a>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="field is-grouped">
+                        <p class="control">
+                            <a class="button is-warning"
+                               href="">
+              <span class="icon">
+                <i class="fas fa-user"></i>
+              </span>
+                                <span>Cabinet</span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="content">
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+{% block script %}{% endblock %}
 </body>
 </html>
