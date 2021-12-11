@@ -1,0 +1,11 @@
+{% extends 'app/base.html' %}
+
+{% block title %}
+    Parking spaces
+{% endblock %}
+
+{% block content %}
+    {% for parking_space in parking_spaces %}
+        <a href="{{ parking_space.get_absolute_url }}">{{ parking_space.name }}</a>
+    {% endfor %}
+{% endblock %}

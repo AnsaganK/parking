@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from django.shortcuts import reverse
 
 class ParkingSpace(models.Model):
     name = models.CharField(max_length=500, verbose_name='Название')
@@ -14,6 +14,9 @@ class ParkingSpace(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('app:parking_detail', kwargs={'slug': self.slug})
 
     class Meta:
         verbose_name = 'Парковочное место'
