@@ -1,0 +1,159 @@
+{% extends 'app/base.html' %}
+
+{% block title %}
+    Reserve
+{% endblock %}
+
+{% block content %}
+    <div class="p-3 columns mt-4 is-centered is-multiline">
+        <div class="column is-12 has-text-centered">
+            <p>{{ parking_space.name }}</p>
+        </div>
+        <div class="column is-6">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="columns">
+                    <div class="column is-6">
+                        <input type="datetime-local" required class="input" name="time_start">
+                    </div>
+                    <div class="column is-6">
+                        <input type="datetime-local" required class="input" name="time_end">
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column is-4 has-text-right">
+                        New user
+                    </div>
+                    <div class="column is-4">
+                        <label class="switch" style="margin: auto; display: block">
+                            <input type="checkbox" id="user_checkbox" name="existing_user">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="column is-4">
+                        Existing user
+                    </div>
+                </div>
+                <div id="new_user">
+                    <div class="field">
+                        <input type="text" class="input" name="first_name" placeholder="First name">
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input" name="last_name" placeholder="Last name">
+                    </div>
+                    <div class="field">
+                        <input type="email" class="input" name="email" placeholder="Email">
+                    </div>
+                    <div class="field">
+                        <input type="text" class="input" name="phone" placeholder="Phone number">
+                    </div>
+                </div>
+                <div class="field hidden_block" id="existing_user">
+                    <label for="" class="label">
+                        Users
+                    </label>
+                    <div class="select" style="width:100%">
+                        <select style="width: 100%;">
+                            {% for reserving_user in reserving_users %}
+                                <option value="{{ reserving_user.id }}">{{ reserving_user.full_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="mt-4 button is-info">create</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block style %}
+    <style>
+        .hidden_block {
+            display: none !important;
+            transition: .8s all;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* The slider */
+        .slider {
+            position: absolute !important;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc !important;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
+{% endblock %}
+
+{% block script %}
+    <script>
+        let page_checkbox = document.getElementById('user_checkbox');
+        page_checkbox.addEventListener("change",
+            function () {
+                let new_user = document.getElementById('new_user');
+                new_user.classList.toggle('hidden_block');
+
+                let existing_user = document.getElementById('existing_user');
+                existing_user.classList.toggle('hidden_block');
+                if (page_checkbox) {
+                    if (page_checkbox.checked) {
+                        existing_user.children[1].children[0].setAttribute('name', 'reserving_user');
+                    } else {
+                        existing_user.children[1].children[0].removeAttribute('name');
+                    }
+                }
+            }
+        )
+    </script>
+{% endblock %}

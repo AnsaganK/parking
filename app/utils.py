@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from datetime import datetime
 
 
 def show_form_errors(request, errors):
@@ -19,3 +20,11 @@ def get_paginator(request, queryset, count):
     except EmptyPage:
         queryset = paginator.page(paginator.num_pages)
     return queryset
+
+
+def str_to_date(date, date_format='%Y-%m-%dT%H:%M'):
+    return datetime.strptime(str(date), date_format)
+
+
+def date_to_str(date, date_format='%Y-%m-%dT%H:%M'):
+    return date.strftime(date_format)
