@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from pytils.translit import slugify
-from app.forms import ParkingSpaceForm, ReserveForm
+from app.forms import ParkingSpaceForm, ReserveForm, ReservingUserForm
 from app.models import ParkingSpace, ReservingUser, Reserve
 from app.utils import show_form_errors, get_paginator, str_to_date, date_to_str
 from datetime import datetime, timedelta
@@ -101,3 +101,36 @@ def reserve_create(request, slug):
     reserving_users = ReservingUser.objects.all()
     return render(request, 'app/reserve/create.html',
                   {'parking_space': parking_space, 'reserving_users': reserving_users})
+
+
+@login_required()
+def reserving_user_list(request):
+    reserving_users = ReservingUser.objects.all()
+    return render(request, 'app/reserving_user/list.html', {'reserving_users': reserving_users})
+
+
+@login_required()
+def reserving_user_edit(request, pk):
+    reserving_user = get_object_or_404(ReservingUser, id=pk)
+    if request.method == 'POST':
+        form = ReservingUserForm(request.POST, instance=reserving_user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'User changed')
+        else:
+            show_form_errors(request, form.errors)
+        return redirect(reverse('app:reserving_user_list'))
+    return render(request, 'app/reserving_user/edit.html', {'reserving_user': reserving_user})
+
+
+@login_required()
+def reserving_user_delete(request, pk):
+    reserving_user = get_object_or_404(ReservingUser, id=pk)
+    reserving_user.delete()
+    messages.success(request, 'User deleted')
+    return redirect(reverse('app:reserving_user_list'))
+
+
+@login_required()
+def cabinet(request):
+    return render(request, 'app/employee/cabinet.html')

@@ -1,0 +1,32 @@
+{% extends 'app/base.html' %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block content %}
+    <div class="columns is-centered">
+        <form action="" method="post" class="custom_form column is-6">
+            <span class="form_title">Login</span>
+            {% csrf_token %}
+
+            <div class="field">
+                <label for="" class="label">
+                    username
+                </label>
+                <div class="control">
+                    <input type="text" class="input" name="username">
+                </div>
+            </div>
+            <div class="field">
+                <label for="" class="label">
+                    password
+                </label>
+                <div class="control">
+                    <input type="password" class="input" name="password">
+                </div>
+            </div>
+            <button type="submit" class="button is-info">Login</button>
+        </form>
+    </div>
+{% endblock %}

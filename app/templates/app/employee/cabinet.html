@@ -1,0 +1,11 @@
+{% extends 'app/base.html' %}
+
+{% block title %}
+    Cabinet
+{% endblock %}
+
+{% block content %}
+    {{ request.user.first_name }}
+
+    <a href="{% url 'logout' %}">Logout</a>
+{% endblock %}

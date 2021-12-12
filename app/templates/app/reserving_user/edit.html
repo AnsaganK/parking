@@ -1,0 +1,57 @@
+{% extends 'app/base.html' %}
+
+{% block title %}
+    {{ reserving_user.full_name }}
+{% endblock %}
+
+{% block content %}
+    <div class="columns is-centered mt-4">
+        <div class="column is-6">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="field">
+                    <label for="" class="label">
+                        First name
+                    </label>
+                    <div class="control">
+                        <input type="text" required class="input" name="first_name"
+                               value="{{ reserving_user.first_name }}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="" class="label">
+                        Last name
+                    </label>
+                    <div class="control">
+                        <input type="text" class="input" name="last_name" value="{{ reserving_user.last_name }}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="" class="label">
+                        Email
+                    </label>
+                    <div class="control">
+                        <input type="email" class="input" name="email" value="{{ reserving_user.email }}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="" class="label">
+                        Phone number
+                    </label>
+                    <div class="control">
+                        <input type="text" class="input" name="phone" value="{{ reserving_user.phone }}">
+                    </div>
+                </div>
+                <div class="columns is-centered">
+                    <div class="column is-6">
+                        <button type="submit" class="button is-info">Changed</button>
+                    </div>
+                    <div class="column is-6"  style="text-align: end">
+                        <a href="{% url 'app:reserving_user_delete' reserving_user.id %}" class="button is-danger">Delete</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

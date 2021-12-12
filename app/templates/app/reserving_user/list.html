@@ -1,0 +1,29 @@
+{% extends 'app/base.html' %}
+
+{% block title %}
+    Reserving users
+{% endblock %}
+
+
+{% block content %}
+    <table class="table mt-4 is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+        <thead>
+        <tr>
+            <td>Full name</td>
+            <td>Email</td>
+            <td>Phone</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for reserving_user in reserving_users %}
+            <tr>
+                <td>{{ reserving_user.full_name }}</td>
+                <td>{{ reserving_user.email|default:' - ' }}</td>
+                <td>{{ reserving_user.phone|default:' - ' }}</td>
+                <td class="has-text-centered"><a href="{% url 'app:reserving_user_edit' reserving_user.id %}"><i class="fa fa-edit"></i></a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

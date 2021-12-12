@@ -53,6 +53,15 @@
             position: absolute !important;
             right: 0px !important;
         }
+
+        .form_title {
+            border-bottom: 1px solid #719fc0;
+            display: block;
+            padding: 6px;
+            text-align: right;
+            color: grey;
+            margin: 10px auto;
+        }
     </style>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -76,39 +85,37 @@
                 <span></span>
             </div>
         </div>
+        {% if request.user.is_authenticated %}
+            <div id="navMenuColorprimary-example" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="{% url 'app:base_page' %}">
+                        Home
+                    </a>
+                    <a class="navbar-item" href="{% url 'app:parking_list' %}">
+                        Parking Space
+                    </a>
+                    <a class="navbar-item" href="{% url 'app:reserving_user_list' %}">
+                        Reserving user
+                    </a>
+                </div>
 
-        <div id="navMenuColorprimary-example" class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item" href="{% url 'app:base_page' %}">
-                    Home
-                </a>
-                <a class="navbar-item" href="{% url 'app:parking_list' %}">
-                    Parking Space
-                </a>
-                <a class="navbar-item" href="">
-                    Reserve
-                </a>
-                <a class="navbar-item" href="">
-                    Reserving user
-                </a>
-            </div>
-
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="field is-grouped">
-                        <p class="control">
-                            <a class="button is-warning"
-                               href="">
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="field is-grouped">
+                            <p class="control">
+                                <a class="button is-warning"
+                                   href="{% url 'app:cabinet' %}">
               <span class="icon">
                 <i class="fas fa-user"></i>
               </span>
-                                <span>Cabinet</span>
-                            </a>
-                        </p>
+                                    <span>Cabinet</span>
+                                </a>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
     </nav>
 </div>
 <div class="content">
