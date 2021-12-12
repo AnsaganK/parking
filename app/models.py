@@ -43,10 +43,11 @@ class ReservingUser(models.Model):
 
 
 class Reserve(models.Model):
-    reserving_user = models.ForeignKey(ReservingUser, on_delete=models.CASCADE, verbose_name='Бронирующий пользователь')
-    reserving_emlpoyee = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Бронирующий сотрудник')
-    parking_space = models.ForeignKey(ParkingSpace, on_delete=models.CASCADE, verbose_name='Парковочное место')
-    time = models.DateTimeField()
+    reserving_user = models.ForeignKey(ReservingUser, on_delete=models.CASCADE, verbose_name='Бронирующий пользователь', related_name='reserves')
+    reserving_emlpoyee = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Бронирующий сотрудник', related_name='reserves')
+    parking_space = models.ForeignKey(ParkingSpace, on_delete=models.CASCADE, verbose_name='Парковочное место', related_name='reserves')
+    time_start = models.DateTimeField(null=True, blank=True)
+    time_end = models.DateTimeField(null=True, blank=True)
     unique_id = models.UUIDField(default=uuid.uuid4, unique=True)
 
     def __str__(self):

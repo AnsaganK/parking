@@ -1,4 +1,5 @@
 {% extends 'app/base.html' %}
+{% load app_tags %}
 
 {% block title %}
     {{ parking_space.name }}
@@ -6,5 +7,46 @@
 
 
 {% block content %}
-    {{ parking_space.name }}
+    <div class="columns is-centered mt-4">
+        <div class="column is-4">
+            <div class="card mt-4 parking_detail_box">
+                {{ parking_space.name }}
+            </div>
+        </div>
+        <div class="column is-8">
+            <form action="">
+                <div class="columns is-centered">
+                    <div class="column is-5">
+                        <input class="input" type="datetime-local" name="time_start" value="{{ time_start }}">
+                    </div>
+                    <div class="column is-5">
+                        <input class="input column" type="datetime-local" name="time_end" value="{{ time_end }}">
+                    </div>
+                    <div class="column is-2">
+                        <button type="submit" class="button is-info">search</button>
+                    </div>
+                </div>
+            </form>
+            {% for date in dates %}
+                <div class="box mt-4">
+                    <p class="">{{ date|date:"d-m-Y" }}</p>
+                    <div class="columns">
+                        {% with dates|dict_key:date as reserves %}
+                            {% for reserve in reserves %}
+                                <div class="column">
+                                    {{ reserve }}
+                                </div>
+                            {% empty %}
+                                <div class="column">
+                                    <span class="not_found">Not found reserves</span>
+                                </div>
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+                </div>
+            {% empty %}
+                <h3 class="not_found">Not found date</h3>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

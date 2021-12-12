@@ -25,6 +25,23 @@
         .card-image-custom {
             border-bottom: 1px dashed #c8c8c8;
         }
+
+        .parking_create_form {
+            display: flex;
+            justify-content: center;
+            max-width: 540px;
+            margin: auto
+        }
+        .parking_detail_box{
+            max-width: 540px !important;
+            margin: 20px auto;
+            padding: 10px;
+        }
+        .not_found{
+            font-size: 14px;
+            color: grey !important;
+            text-align: center;
+        }
     </style>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,7 +57,7 @@
     <nav class="navbar is-info">
         <div class="navbar-brand">
             <a class="navbar-item logo" href="{% url 'app:base_page' %}">
-                Booking
+                Fregat
             </a>
             <div class="navbar-burger" data-target="navMenuColorprimary-example">
                 <span></span>
