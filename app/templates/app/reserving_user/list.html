@@ -1,5 +1,5 @@
 {% extends 'app/base.html' %}
-
+{% load app_tags %}
 {% block title %}
     Reserving users
 {% endblock %}
@@ -12,7 +12,10 @@
             <td>Full name</td>
             <td>Email</td>
             <td>Phone</td>
-            <td></td>
+
+            {% if request.user|has_groups:'["Manager"]' %}
+                <td></td>
+            {% endif %}
         </tr>
         </thead>
         <tbody>
@@ -21,7 +24,10 @@
                 <td>{{ reserving_user.full_name }}</td>
                 <td>{{ reserving_user.email|default:' - ' }}</td>
                 <td>{{ reserving_user.phone|default:' - ' }}</td>
-                <td class="has-text-centered"><a href="{% url 'app:reserving_user_edit' reserving_user.id %}"><i class="fa fa-edit"></i></a></td>
+                {% if request.user|has_groups:'["Manager"]' %}
+                    <td class="has-text-centered"><a href="{% url 'app:reserving_user_edit' reserving_user.id %}"><i
+                            class="fa fa-edit"></i></a></td>
+                {% endif %}
             </tr>
         {% endfor %}
         </tbody>

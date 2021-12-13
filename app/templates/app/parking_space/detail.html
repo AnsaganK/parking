@@ -24,7 +24,8 @@
                         <button type="submit" class="button is-info">search</button>
                     </div>
                     <div class="column is-2">
-                        <a class="button is-success add_reserve_button" href="{% url 'app:reserve_create' parking_space.slug %}"><i class="fa fa-plus"></i></a>
+                        <a class="button is-success add_reserve_button"
+                           href="{% url 'app:reserve_create' parking_space.slug %}"><i class="fa fa-plus"></i></a>
                     </div>
                 </div>
             </form>
@@ -34,9 +35,11 @@
                     <div>
                         {% with dates|dict_key:date as reserves %}
                             {% for reserve in reserves %}
-                                <div class="tag reserve_date is-clickable" data-unique-id="{{ reserve.unique_id }}">
-                                    {{ reserve.get_date }}
-                                </div>
+                                <a href="{{ reserve.get_absolute_url }}">
+                                    <div class="tag reserve_date is-clickable" data-unique-id="{{ reserve.unique_id }}">
+                                        {{ reserve.get_date }}
+                                    </div>
+                                </a>
                             {% empty %}
                                 <div class="column">
                                     <span class="not_found">Not found reserves</span>
@@ -55,23 +58,28 @@
 
 {% block script %}
     <script>
-    function reserve_date_hovered(unique_id){
-        let unique_id_elements = document.querySelectorAll(`div[data-unique-id="${unique_id}"]`);
-        unique_id_elements.forEach(
+        function reserve_date_hovered(unique_id) {
+            let unique_id_elements = document.querySelectorAll(`div[data-unique-id="${unique_id}"]`);
+            unique_id_elements.forEach(
+                element => {
+                    element.classList.toggle('is-info')
+                }
+            )
+        }
+
+        let unique_ids = document.querySelectorAll('div[data-unique-id]');
+        console.log(unique_ids.length)
+        unique_ids.forEach(
             element => {
-                element.classList.toggle('is-info')
+                let unique_id = element.dataset.uniqueId;
+                element.addEventListener('mouseover', function () {
+                    reserve_date_hovered(unique_id)
+                })
+                element.addEventListener('mouseout', function () {
+                    reserve_date_hovered(unique_id)
+                })
             }
         )
-    }
-    let unique_ids = document.querySelectorAll('div[data-unique-id]');
-    console.log(unique_ids.length)
-    unique_ids.forEach(
-        element => {
-            let unique_id = element.dataset.uniqueId;
-            element.addEventListener('mouseover', function (){reserve_date_hovered(unique_id)})
-            element.addEventListener('mouseout', function (){reserve_date_hovered(unique_id)})
-        }
-    )
 
     </script>
 {% endblock %}

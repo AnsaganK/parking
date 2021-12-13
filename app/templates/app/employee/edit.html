@@ -1,0 +1,45 @@
+{% extends 'app/base.html' %}
+
+{% block title %}
+    Profile edit
+{% endblock %}
+
+{% block content %}
+    <div class="columns is-centered mt-4">
+        <div class="column is-6">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="field">
+                    <label for="" class="label">
+                        First name
+                    </label>
+                    <div class="control">
+                        <input type="text" required class="input" name="first_name"
+                               value="{{ request.user.first_name }}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="" class="label">
+                        Last name
+                    </label>
+                    <div class="control">
+                        <input type="text" class="input" name="last_name" value="{{ request.user.last_name }}">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="" class="label">
+                        Email
+                    </label>
+                    <div class="control">
+                        <input type="email" class="input" name="email" value="{{ request.user.email }}">
+                    </div>
+                </div>
+                <div class="columns is-centered">
+                    <div class="column is-6">
+                        <button type="submit" class="button is-info">Changed</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

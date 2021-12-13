@@ -1,0 +1,113 @@
+{% extends 'app/base.html' %}
+
+{% block title %}
+    Reserve search
+{% endblock %}
+
+{% block content %}
+    <div class="columns is-centered is-multiline mt-4">
+        <div class="column is-6">
+            <form action="" onsubmit="getReserveData(event)">
+                <div class="columns is-multiline">
+                    <div class="column is-10">
+                        <input type="text" required class="input" placeholder="unique id" id="unique_id">
+                    </div>
+                    <div class="column is-2" style="text-align: end">
+                        <button type="submit" id="button_search" class="button is-info"><i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="column is-12">
+            <div class="columns is-centered">
+                <div class="column is-6">
+                    <div class="card" id="reserve_block" style="min-height: 300px; display: flex; flex-direction: column">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        let preloader = `
+                        <div class="loading">
+                            <div class="loader_wrap">
+                                <div class="loftloader-wrapper pl-wave">
+                                    <div class="preloader">
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+
+        async function getReserveData(evt) {
+            evt.preventDefault();
+            let reserve_block = document.getElementById('reserve_block');
+            reserve_block.innerHTML = preloader;
+            let input = document.getElementById('unique_id');
+            let unique_id = input.value;
+            toggleButton()
+
+            let url = `/reserve/search/${unique_id}`
+            await fetch(url).then(async response => {
+                if (response.status === 200) {
+                    create_reserve_block(await response.json())
+                    toggleButton()
+                } else {
+                    console.log(response.status);
+                    throw new Error(response.status);
+                }
+            }).catch(
+                (error) => {
+                    showError()
+                    console.log(error);
+                }
+            );
+        }
+
+        function showError() {
+            let reserve_block = document.getElementById('reserve_block');
+            toggleButton()
+            reserve_block.innerHTML = `<div class="error_message">Error</div>`
+        }
+
+        function toggleButton() {
+            let button_search = document.getElementById('button_search')
+            button_search.classList.toggle('is-loading');
+            button_search.classList.toggle('disabled');
+        }
+
+        function create_reserve_block(data) {
+            let reserve_block = document.getElementById('reserve_block');
+            reserve_block.innerHTML = `
+                <header class="card-header">
+                    <p class="card-header-title">
+                        <span style="margin: auto">${data.time_start} - ${data.time_end}</span>
+                    </p>
+                </header>
+                <div class="card-content">
+                    <div class="content" style="width: fit-content;margin: auto;">
+                        <div>
+                            <span>Duration:</span>
+                            <span class="has-text-centered">${data.get_duration}</span>
+                        </div>
+                        <div>
+                            <span>Parking space:</span>
+                            <span
+                               class="has-text-centered">${data.parking_space}</span>
+                        </div>
+                        <div>
+                            <span>Reserving user:</span>
+                            <span
+                               class="has-text-centered">${data.reserving_user}</span>
+                        </div>
+                    </div>
+                </div>
+            `
+        }
+    </script>
+{% endblock %}

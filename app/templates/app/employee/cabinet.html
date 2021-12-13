@@ -5,7 +5,17 @@
 {% endblock %}
 
 {% block content %}
-    {{ request.user.first_name }}
+    <div class="columns is-centered mt-4">
+        <div class="box column is-6">
+            <div>
+                <p>First name: {{ request.user.first_name }}</p>
+                <p>Last name: {{ request.user.last_name }}</p>
+                <p>Email : {{ request.user.email|default:' - ' }}</p>
+                <p>Groups : {% for group in request.user.groups.all %}{{ group.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                <a href="{% url 'app:profile_edit' %}" class="button is-info">Changed</a>
+                <a href="{% url 'logout' %}" class="button is-info">Logout</a>
+            </div>
+        </div>
+    </div>
 
-    <a href="{% url 'logout' %}">Logout</a>
 {% endblock %}

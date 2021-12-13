@@ -1,0 +1,52 @@
+{% extends 'app/base.html' %}
+{% load app_tags %}
+
+{% block title %}
+    Reserve detail | {{ reserve.unique_id }}
+{% endblock %}
+
+{% block content %}
+    <div class="columns is-centered mt-4">
+        <div class="column is-6">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">
+                        <span style="margin: auto">{{ reserve.time_start }} - {{ reserve.time_end }}</span>
+                    </p>
+                </header>
+                <div class="card-content">
+                    <div class="content" style="width: fit-content;margin: auto;">
+                        <div>
+                            <span>Unique id:</span>
+                            <span class="has-text-centered">{{ reserve.unique_id }}</span>
+                        </div>
+                        <div>
+                            <span>Duration:</span>
+                            <span class="has-text-centered">{{ reserve.get_duration }}</span>
+                        </div>
+                        <div>
+                            <span>Parking space:</span>
+                            <a href="{{ reserve.parking_space.get_absolute_url }}"
+                               class="has-text-centered">{{ reserve.parking_space.name.capitalize }}</a>
+                        </div>
+                        <div>
+                            <span>Reserving user:</span>
+                            <a href="{% url 'app:reserving_user_edit' reserve.reserving_user.id %}"
+                               class="has-text-centered">{{ reserve.reserving_user.full_name }}</a>
+                        </div>
+                        <div>
+                            <span>Reserving emlpoyee:</span>
+                            <a href=""
+                               class="has-text-centered">{{ reserve.reserving_emlpoyee.first_name }}</a>
+                        </div>
+                    </div>
+                </div>
+                {% if request.user|has_groups:'["Manager"]' %}
+                    <footer class="card-footer">
+                        <a href="{% url 'app:reserve_edit' reserve.unique_id %}" class="card-footer-item">Edit</a>
+                    </footer>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

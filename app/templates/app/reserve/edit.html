@@ -1,0 +1,39 @@
+{% extends 'app/base.html' %}
+
+{% block title %}
+    Reserve edit | {{ reserve.unique_id }}
+{% endblock %}
+
+{% block content %}
+    <div class="p-3 columns mt-4 is-centered is-multiline">
+        <div class="column is-12 has-text-centered">
+            <p>{{ parking_space.name }}</p>
+        </div>
+        <div class="column is-6">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="columns">
+                    <div class="column is-6">
+                        <input type="datetime-local" required class="input" name="time_start" value="{{ time_start }}">
+                    </div>
+                    <div class="column is-6">
+                        <input type="datetime-local" required class="input" name="time_end" value="{{ time_end }}">
+                    </div>
+                </div>
+                <div class="field" id="existing_user">
+                    <label for="" class="label">
+                        Users
+                    </label>
+                    <div class="select" style="width:100%">
+                        <select style="width: 100%;" name="reserving_user">
+                            {% for reserving_user in reserving_users %}
+                                <option value="{{ reserving_user.id }}" {% if reserve.reserving_user == reserving_user %}selected{% endif %}>{{ reserving_user.full_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="mt-4 button is-info">create</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -6,11 +6,12 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.shortcuts import reverse
 from django.template.defaultfilters import safe
+from pytils.translit import slugify
 
 
 class ParkingSpace(models.Model):
     name = models.CharField(max_length=500, verbose_name='Название')
-    slug = models.SlugField(max_length=500, unique=True, verbose_name='Слаг')
+    slug = models.SlugField(max_length=500, unique=True, null=True, blank=True, verbose_name='Слаг')
     date_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     date_update = models.DateTimeField(auto_now_add=True, verbose_name='Дата обновления')
 
@@ -24,6 +25,11 @@ class ParkingSpace(models.Model):
         verbose_name = 'Парковочное место'
         verbose_name_plural = 'Парковочные места'
         ordering = ['-pk']
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.slug = slugify(f'{self.name}-{str(self.id)}')
+        super().save(*args, **kwargs)
 
 
 class ReservingUser(models.Model):
@@ -55,6 +61,9 @@ class Reserve(models.Model):
     time_end = models.DateTimeField(null=True, blank=True)
     unique_id = models.UUIDField(default=uuid.uuid4, unique=True)
 
+    def get_absolute_url(self):
+        return reverse('app:reserve_detail', kwargs={'unique_id': self.unique_id})
+
     def __str__(self):
         return str(self.unique_id)
 
@@ -63,6 +72,10 @@ class Reserve(models.Model):
         return safe(f'{self.time_start.strftime("%d-%m-%Y %H:%M")}<br>'
                     f'{self.time_end.strftime("%d-%m-%Y %H:%M")}'
                     )
+
+    @property
+    def get_duration(self):
+        return self.time_end - self.time_start
 
     class Meta:
         verbose_name = 'Бронирование'

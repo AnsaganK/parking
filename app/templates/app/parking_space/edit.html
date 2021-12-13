@@ -1,0 +1,23 @@
+{% extends 'app/base.html' %}
+
+{% block title %}
+    {{ parking_space.name }}
+{% endblock %}
+
+{% block content %}
+    <div class="columns is-centered mt-4">
+        <div class="column is-6">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="columns">
+                    <div class="column is-10">
+                        <input type="text" class="input" name="name" value="{{ parking_space.name }}">
+                    </div>
+                    <div class="column is-2">
+                        <button type="submit" class="button is-info">Changed</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
