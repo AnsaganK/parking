@@ -27,7 +27,7 @@ def parking_list(request):
             show_form_errors(request, form.errors)
         return redirect(reverse('app:parking_list'))
     parking_spaces = ParkingSpace.objects.all()
-    parking_spaces = get_paginator(request, parking_spaces, 12)
+    parking_spaces = get_paginator(request, parking_spaces, 8)
     return render(request, 'app/parking_space/list.html', {'parking_spaces': parking_spaces})
 
 
