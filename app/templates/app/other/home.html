@@ -7,7 +7,7 @@
 {% block content %}
     <h3 class="has-text-centered mt-3">Home page</h3>
     <div>
-        {% if not request.user.is_authenticted %}
+        {% if request.user.is_authenticted %}
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel sollicitudin tellus. Aliquam erat
                 volutpat. Etiam sagittis eget felis at imperdiet. Cras maximus nec erat vitae maximus. Mauris at
